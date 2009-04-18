@@ -157,8 +157,10 @@ public class Driver {
 
 	private Uri BuildUriPasteBinCa ()
 	{
-		UriBuilder builder = new UriBuilder (url);
+		if (!url.StartsWith ("http://"))
+			url = String.Concat ("http://", url);
 
+		UriBuilder builder = new UriBuilder (url);
 		if (!builder.Path.StartsWith ("/raw/"))
 			builder.Path = String.Concat ("/raw/", builder.Path);
 
@@ -170,8 +172,11 @@ public class Driver {
 
 	private Uri BuildUriMonoport ()
 	{
-		UriBuilder builder = new UriBuilder (url);
+		if (!url.StartsWith ("http://"))
+			url = String.Concat ("http://", url);
 
+		UriBuilder builder = new UriBuilder (url);
+		builder.Scheme = "http";
 		if (!builder.Path.StartsWith ("/dl/"))
 			builder.Path = String.Concat ("/dl/", builder.Path);
 
