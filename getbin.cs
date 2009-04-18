@@ -53,7 +53,8 @@ public class Driver {
 
 	public static void ShowHelp (OptionSet os)
 	{
-		Console.WriteLine ("getbin usage is: getbin [options] [directory]");
+		Console.WriteLine ("getbin usage is: getbin url [filename]");
+		Console.WriteLine ("url may be a full pastebin.ca url or the pastebin id");
 		Console.WriteLine ();
 		os.WriteOptionDescriptions (Console.Out);
 	}
