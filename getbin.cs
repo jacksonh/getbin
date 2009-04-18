@@ -97,6 +97,11 @@ public class Driver {
 		set { redirect = value; }
 	}
 
+	
+	private delegate Uri BuildUriHandler ();
+
+	private Dictionary<string,BuildUriHandler> uri_builders;
+
 	public Driver ()
 	{
 		PasteBinUrl = ConfigurationManager.AppSettings ["PasteBinUrl"];
@@ -110,6 +115,8 @@ public class Driver {
 
 		if (Boolean.TryParse (ConfigurationManager.AppSettings ["Verbose"], out b))
 			Verbose = b;
+
+		CreateUriHandlers ();
 	}
 
 	public void GetBin ()
@@ -130,20 +137,46 @@ public class Driver {
 	{
 		UriBuilder builder;
 
-		if (Char.IsDigit (url [0])) {
-			builder = new UriBuilder ();
-			builder.Scheme = "http";
-			builder.Host = PasteBinUrl;
-			builder.Path = String.Concat ("/raw/", url);
-		} else {
-			builder = new UriBuilder (url);
-
-			if (!builder.Path.StartsWith ("/raw/"))
-				builder.Path = String.Concat ("/raw/", builder.Path);
+		foreach (KeyValuePair<string,BuildUriHandler> pair in uri_builders) {
+			if (Regex.IsMatch (url, pair.Key))
+				return pair.Value ();
 		}
 
+		//
+		// So for now we'll just assume pastebin.ca, there really isn't a good
+		// way to handle this, but most people will share URLs not IDs anyways
+		// 
+
+		builder = new UriBuilder ();
+		builder.Scheme = "http";
+		builder.Host = PasteBinUrl;
+		builder.Path = String.Concat ("/raw/", url);
+
+		return builder.Uri;
+	}
+
+	private Uri BuildUriPasteBinCa ()
+	{
+		UriBuilder builder = new UriBuilder (url);
+
+		if (!builder.Path.StartsWith ("/raw/"))
+			builder.Path = String.Concat ("/raw/", builder.Path);
+
 		if (verbose)
-			Console.WriteLine ("getbin: built uri:  {0}", builder.Uri);
+			Console.WriteLine ("getbin: built pastebin.ca uri:  {0}", builder.Uri);
+
+		return builder.Uri;
+	}
+
+	private Uri BuildUriMonoport ()
+	{
+		UriBuilder builder = new UriBuilder (url);
+
+		if (!builder.Path.StartsWith ("/dl/"))
+			builder.Path = String.Concat ("/dl/", builder.Path);
+
+		if (verbose)
+			Console.WriteLine ("getbin: built monoport uri:  {0}", builder.Uri);
 
 		return builder.Uri;
 	}
@@ -200,7 +233,14 @@ public class Driver {
 				}
 			}
 		}
+	}
 
+	private void CreateUriHandlers ()
+	{
+		uri_builders = new Dictionary<string,BuildUriHandler> ();
+
+		uri_builders ["monoport"] = new BuildUriHandler (BuildUriMonoport);
+		uri_builders ["pastebin.ca"] = new BuildUriHandler (BuildUriPasteBinCa);
 	}
 }
 
