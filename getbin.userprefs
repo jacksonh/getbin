@@ -1,0 +1,29 @@
+﻿<UserCombinePreferences version="1.0" filename="/home/jackson/projects/mono/getbin/getbin.mds">
+  <Files>
+    <File name="Welcome" />
+    <File name="getbin.cs" line="52" column="3" />
+    <File name="Options.cs" line="22" column="18" />
+  </Files>
+  <Views>
+    <ViewMemento id="ProjectPad">
+      <Node expanded="True">
+        <Node name="getbin" expanded="True" selected="True">
+          <Node name="References" expanded="True" />
+        </Node>
+      </Node>
+    </ViewMemento>
+    <ViewMemento id="ClassPad">
+      <Node expanded="True" />
+    </ViewMemento>
+    <ViewMemento id="ConnectionManagerPad">
+      <Node expanded="True" />
+    </ViewMemento>
+    <ViewMemento id="MonoDevelop.NUnit.TestPad">
+      <Node />
+    </ViewMemento>
+  </Views>
+  <Properties>
+    <Property key="ActiveWindow" value="/home/jackson/projects/mono/getbin/getbin.cs" />
+    <Property key="ActiveConfiguration" value="Debug" />
+  </Properties>
+</UserCombinePreferences>

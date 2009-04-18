@@ -1,0 +1,20 @@
+<Combine name="getbin" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="getbin" configuration="Debug" />
+      <Entry build="True" name="Packages" configuration="" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="getbin" configuration="Release" />
+      <Entry build="True" name="Packages" configuration="" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="getbin" single="True">
+    <Execute type="None" entry="getbin" />
+    <Execute type="None" entry="Packages" />
+  </StartMode>
+  <Entries>
+    <Entry filename="getbin.mdp" />
+    <Entry filename="Packages.mdse" />
+  </Entries>
+</Combine>
