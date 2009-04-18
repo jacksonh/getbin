@@ -12,6 +12,7 @@ COMPILE_TARGET = exe
 PROJECT_REFERENCES = 
 BUILD_DIR = bin/Debug
 
+GETBIN_EXE_CONFIG_SOURCE=getbin.exe.config
 
 endif
 
@@ -24,24 +25,29 @@ COMPILE_TARGET = exe
 PROJECT_REFERENCES = 
 BUILD_DIR = bin/Release
 
+GETBIN_EXE_CONFIG_SOURCE=getbin.exe.config
 
 endif
 
 AL=al2
 SATELLITE_ASSEMBLY_NAME=.resources.dll
 
+PROGRAMFILES = \
+	$(GETBIN_EXE_CONFIG)  
+
 BINARIES = \
 	$(GETBIN)  
 
 
 	
-all: $(ASSEMBLY) $(BINARIES) 
+all: $(ASSEMBLY) $(PROGRAMFILES) $(BINARIES) 
 
 FILES = \
 	getbin.cs \
 	Options.cs 
 
-DATA_FILES = 
+DATA_FILES = \
+	getbin.exe.config 
 
 RESOURCES = 
 
@@ -54,13 +60,15 @@ REFERENCES =  \
 
 DLL_REFERENCES = 
 
-CLEANFILES = $(BINARIES) 
+CLEANFILES = $(PROGRAMFILES) $(BINARIES) 
 
 include $(top_srcdir)/Makefile.include
 
 GETBIN = $(BUILD_DIR)/getbin
+GETBIN_EXE_CONFIG = $(BUILD_DIR)/getbin.exe.config
 
 $(eval $(call emit-deploy-wrapper,GETBIN,getbin,x))
+$(eval $(call emit-deploy-target,GETBIN_EXE_CONFIG))
 
 
 $(build_xamlg_list): %.xaml.g.cs: %.xaml

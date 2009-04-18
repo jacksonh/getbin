@@ -636,6 +636,9 @@ AMTAR
 am__tar
 am__untar
 PKG_CONFIG
+expanded_libdir
+expanded_bindir
+expanded_datadir
 GMCS
 ENABLE_DEBUG_TRUE
 ENABLE_DEBUG_FALSE
@@ -2183,9 +2186,50 @@ echo "$as_me: error: You need to install pkg-config" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
-SHAMROCK_EXPAND_LIBDIR
-SHAMROCK_EXPAND_BINDIR
-SHAMROCK_EXPAND_DATADIR
+
+	expanded_libdir=`(
+		case $prefix in
+			NONE) prefix=$ac_default_prefix ;;
+			*) ;;
+		esac
+		case $exec_prefix in
+			NONE) exec_prefix=$prefix ;;
+			*) ;;
+		esac
+		eval echo $libdir
+	)`
+
+
+
+	expanded_bindir=`(
+		case $prefix in
+			NONE) prefix=$ac_default_prefix ;;
+			*) ;;
+		esac
+		case $exec_prefix in
+			NONE) exec_prefix=$prefix ;;
+			*) ;;
+		esac
+		eval echo $bindir
+	)`
+
+
+
+	case $prefix in
+		NONE) prefix=$ac_default_prefix ;;
+		*) ;;
+	esac
+
+	case $exec_prefix in
+		NONE) exec_prefix=$prefix ;;
+		*) ;;
+	esac
+
+	expanded_datadir=`(eval echo $datadir)`
+	expanded_datadir=`(eval echo $expanded_datadir)`
+
+
+
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -3083,6 +3127,9 @@ AMTAR!$AMTAR$ac_delim
 am__tar!$am__tar$ac_delim
 am__untar!$am__untar$ac_delim
 PKG_CONFIG!$PKG_CONFIG$ac_delim
+expanded_libdir!$expanded_libdir$ac_delim
+expanded_bindir!$expanded_bindir$ac_delim
+expanded_datadir!$expanded_datadir$ac_delim
 GMCS!$GMCS$ac_delim
 ENABLE_DEBUG_TRUE!$ENABLE_DEBUG_TRUE$ac_delim
 ENABLE_DEBUG_FALSE!$ENABLE_DEBUG_FALSE$ac_delim
@@ -3092,7 +3139,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 67; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 70; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

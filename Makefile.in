@@ -16,6 +16,7 @@
 
 # Warning: This is an automatically generated file, do not edit!
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -38,14 +39,16 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure install-sh missing
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/expansions.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES = getbin
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)" \
+	"$(DESTDIR)$(programfilesdir)"
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 pkglibSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(bin_SCRIPTS) $(pkglib_SCRIPTS)
@@ -58,6 +61,14 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-pdf-recursive install-ps-recursive install-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+programfilesDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(programfiles_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
@@ -123,6 +134,9 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+expanded_bindir = @expanded_bindir@
+expanded_datadir = @expanded_datadir@
+expanded_libdir = @expanded_libdir@
 host_alias = @host_alias@
 htmldir = @htmldir@
 includedir = @includedir@
@@ -167,8 +181,13 @@ EXTRA_DIST = expansions.m4 $(build_sources) $(build_resx_files) \
 @ENABLE_RELEASE_TRUE@PROJECT_REFERENCES = 
 @ENABLE_DEBUG_TRUE@BUILD_DIR = bin/Debug
 @ENABLE_RELEASE_TRUE@BUILD_DIR = bin/Release
+@ENABLE_DEBUG_TRUE@GETBIN_EXE_CONFIG_SOURCE = getbin.exe.config
+@ENABLE_RELEASE_TRUE@GETBIN_EXE_CONFIG_SOURCE = getbin.exe.config
 AL = al2
 SATELLITE_ASSEMBLY_NAME = .resources.dll
+PROGRAMFILES = \
+	$(GETBIN_EXE_CONFIG)  
+
 BINARIES = \
 	$(GETBIN)  
 
@@ -176,7 +195,9 @@ FILES = \
 	getbin.cs \
 	Options.cs 
 
-DATA_FILES = 
+DATA_FILES = \
+	getbin.exe.config 
+
 RESOURCES = 
 EXTRAS = \
 	getbin.in 
@@ -186,8 +207,9 @@ REFERENCES = \
 	System
 
 DLL_REFERENCES = 
-CLEANFILES = $(BINARIES) $(ASSEMBLY) $(ASSEMBLY).mdb $(BINARIES) \
-	$(build_resx_resources) $(build_satellite_assembly_list)
+CLEANFILES = $(PROGRAMFILES) $(BINARIES) $(ASSEMBLY) $(ASSEMBLY).mdb \
+	$(BINARIES) $(build_resx_resources) \
+	$(build_satellite_assembly_list)
 VALID_CULTURES = ar bg ca zh-CHS cs da de el en es fi fr he hu is it ja ko nl no pl pt ro ru hr sk sq sv th tr id uk be sl et lv lt fa vi hy eu mk af fo hi sw gu ta te kn mr gl kok ar-SA bg-BG ca-ES zh-TW cs-CZ da-DK de-DE el-GR en-US fi-FI fr-FR he-IL hu-HU is-IS it-IT ja-JP ko-KR nl-NL nb-NO pl-PL pt-BR ro-RO ru-RU hr-HR sk-SK sq-AL sv-SE th-TH tr-TR id-ID uk-UA be-BY sl-SI et-EE lv-LV lt-LT fa-IR vi-VN hy-AM eu-ES mk-MK af-ZA fo-FO hi-IN sw-KE gu-IN ta-IN te-IN kn-IN mr-IN gl-ES kok-IN ar-IQ zh-CN de-CH en-GB es-MX fr-BE it-CH nl-BE nn-NO pt-PT sv-FI ar-EG zh-HK de-AT en-AU es-ES fr-CA ar-LY zh-SG de-LU en-CA es-GT fr-CH ar-DZ zh-MO en-NZ es-CR fr-LU ar-MA en-IE es-PA ar-TN en-ZA es-DO ar-OM es-VE ar-YE es-CO ar-SY es-PE ar-JO es-AR ar-LB en-ZW es-EC ar-KW en-PH es-CL ar-AE es-UY ar-BH es-PY ar-QA es-BO es-SV es-HN es-NI es-PR zh-CHT
 build_sources = $(FILES) $(GENERATED_FILES)
 build_sources_embed = $(build_sources:%='$(srcdir)/%')
@@ -220,6 +242,8 @@ build_references_ref = $(foreach ref, $(REFERENCES), $(if $(filter \
 DISTCLEANFILES = $(GENERATED_FILES) $(pc_files) $(BUILD_DIR)/*
 pkglib_SCRIPTS = $(ASSEMBLY)
 bin_SCRIPTS = $(BINARIES)
+programfilesdir = @libdir@/@PACKAGE@
+programfiles_DATA = $(PROGRAMFILES)
 
 # generating satellite assemblies
 culture_resources = $(foreach res, $(RESOURCES), $(if $(call is_cultured_resource,$(call get_resource_name, $(res))),$(res)))
@@ -229,6 +253,7 @@ culture_resource_commandlines = cmd_line_satellite_$1 += '/embed:$(subst .resx,.
 build_satellite_assembly_list = $(cultures:%=$(BUILD_DIR)/%/$(SATELLITE_ASSEMBLY_NAME))
 build_culture_res_files = $(foreach res, $(culture_resources),$(call get_resource_name,$(res)))
 GETBIN = $(BUILD_DIR)/getbin
+GETBIN_EXE_CONFIG = $(BUILD_DIR)/getbin.exe.config
 all: all-recursive
 
 .SUFFIXES:
@@ -304,6 +329,23 @@ uninstall-pkglibSCRIPTS:
 	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
 	  echo " rm -f '$(DESTDIR)$(pkglibdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(pkglibdir)/$$f"; \
+	done
+install-programfilesDATA: $(programfiles_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(programfilesdir)" || $(MKDIR_P) "$(DESTDIR)$(programfilesdir)"
+	@list='$(programfiles_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(programfilesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(programfilesdir)/$$f'"; \
+	  $(programfilesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(programfilesdir)/$$f"; \
+	done
+
+uninstall-programfilesDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(programfiles_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(programfilesdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(programfilesdir)/$$f"; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -586,10 +628,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(SCRIPTS)
+all-am: Makefile $(SCRIPTS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(programfilesdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -637,7 +679,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-programfilesDATA
 
 install-dvi: install-dvi-recursive
 
@@ -673,7 +715,8 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binSCRIPTS uninstall-pkglibSCRIPTS
+uninstall-am: uninstall-binSCRIPTS uninstall-pkglibSCRIPTS \
+	uninstall-programfilesDATA
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
 	install-strip
@@ -688,15 +731,16 @@ uninstall-am: uninstall-binSCRIPTS uninstall-pkglibSCRIPTS
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
-	install-pkglibSCRIPTS install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-binSCRIPTS \
-	uninstall-pkglibSCRIPTS
+	install-pkglibSCRIPTS install-programfilesDATA install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-binSCRIPTS uninstall-pkglibSCRIPTS \
+	uninstall-programfilesDATA
 
 
-all: $(ASSEMBLY) $(BINARIES) 
+all: $(ASSEMBLY) $(PROGRAMFILES) $(BINARIES) 
 
 # macros
 
@@ -726,6 +770,7 @@ $(build_satellite_assembly_list): $(BUILD_DIR)/%/$(SATELLITE_ASSEMBLY_NAME):
 	$(AL) -out:'$@' -culture:$* -t:lib $(cmd_line_satellite_$*)
 
 $(eval $(call emit-deploy-wrapper,GETBIN,getbin,x))
+$(eval $(call emit-deploy-target,GETBIN_EXE_CONFIG))
 
 $(build_xamlg_list): %.xaml.g.cs: %.xaml
 	xamlg '$<'

@@ -1,15 +1,16 @@
 ﻿<UserCombinePreferences version="1.0" filename="/home/jackson/projects/mono/getbin/getbin.mds">
   <Files>
     <File name="Welcome" />
-    <File name="getbin.cs" line="52" column="3" />
+    <File name="getbin.cs" line="73" column="1" />
     <File name="Options.cs" line="22" column="18" />
   </Files>
   <Views>
     <ViewMemento id="ProjectPad">
       <Node expanded="True">
-        <Node name="getbin" expanded="True" selected="True">
-          <Node name="References" expanded="True" />
+        <Node name="getbin" expanded="True">
+          <Node name="getbin.exe.config" selected="True" />
         </Node>
+        <Node name="Packages" expanded="True" />
       </Node>
     </ViewMemento>
     <ViewMemento id="ClassPad">
